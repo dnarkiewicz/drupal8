@@ -1,0 +1,19 @@
+
+file_downloader.file_downloader_form:
+  path: '/file-download'
+  defaults:
+    _form: '\Drupal\file_downloader\Form\FileDownloaderForm'
+    _title: 'File Downloader Form'
+  requirements:
+    _permission: 'download files'
+
+file_downloader.file_downloader_config_form:
+  path: '/admin/config/file_downloader/settings'
+  defaults:
+    _form: '\Drupal\file_downloader\Form\FileDownloaderConfigForm'
+    _title: 'FileDownloaderConfigForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+

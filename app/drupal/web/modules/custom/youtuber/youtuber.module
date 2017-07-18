@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Contains youtuber.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_theme()
+ */
+function youtuber_theme() {
+  return [
+    'youtuber_video' => [
+      'variables' => [
+        'youtube_id' => 'vY3z3yh7a24', //NULL or any default video
+        'width' => 560,
+        'height' => 315,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_help().
+ */
+function youtuber_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the youtuber module.
+    case 'help.page.youtuber':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Fat Shaming Module') . '</p>';
+      return $output;
+
+    default:
+  }
+}

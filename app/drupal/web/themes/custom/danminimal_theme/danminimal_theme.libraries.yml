@@ -1,0 +1,14 @@
+dan-styling:
+  version: VERSION
+  css:
+    layout:
+      css/dan.css: {}
+      https://localhost/sites/default/files/blink.css: { type: external }
+  js:
+    js/dan.js: {}
+
+landing-page-styling:
+  version: VERSION
+  css:
+    component:
+      css/dan-landing-page.css: {}

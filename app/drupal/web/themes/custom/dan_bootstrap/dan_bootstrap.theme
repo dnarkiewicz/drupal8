@@ -1,0 +1,24 @@
+<?php
+/**
+ * @file
+ * Bootstrap sub-theme.
+ *
+ * Place your custom PHP code in this file.
+ */
+
+function dan_bootstrap_preprocess_page_title(&$variables) {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ( $node ) {
+      $user = $node->getOwner();
+      $variables['author_name'] = $user->getDisplayName();
+      $variables['date'] = format_date($node->getCreatedTime(), 'medium');
+    }
+}
+
+function dan_bootstrap_theme_suggestions_page_title_alter( &$suggestions, $variables)
+{
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ( $node ) {
+    $suggestions[] = 'page_title__'. $node->getType();
+  }
+}

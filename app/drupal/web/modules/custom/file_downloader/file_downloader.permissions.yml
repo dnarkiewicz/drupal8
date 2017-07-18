@@ -1,0 +1,6 @@
+download files:
+  title: 'Download Files'
+  description: 'Allows a user to download files'
+config file downloads:
+  title: 'Configure File Download Settings'
+  description: 'Allows a user to configure the File Download Module'

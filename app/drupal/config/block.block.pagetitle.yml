@@ -1,0 +1,18 @@
+uuid: 7f83c16a-85a3-47f9-9eb8-c2791290b8b3
+langcode: en
+status: true
+dependencies:
+  theme:
+    - danminimal_theme
+id: pagetitle
+theme: danminimal_theme
+region: dan
+weight: 0
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  provider: core
+  label_display: '0'
+visibility: {  }

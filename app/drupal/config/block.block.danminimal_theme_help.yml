@@ -1,0 +1,22 @@
+uuid: 9e312fe4-3164-434a-bc76-050629f543b6
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - danminimal_theme
+_core:
+  default_config_hash: 8I8iACSa0sKO3k3jlvUG1ge52rfcKX7USJAQYnzuBgg
+id: danminimal_theme_help
+theme: danminimal_theme
+region: footer
+weight: -5
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  provider: help
+  label_display: '0'
+visibility: {  }

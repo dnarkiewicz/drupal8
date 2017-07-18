@@ -1,0 +1,14 @@
+uuid: 873a9d76-4ffe-4cc4-8021-932de3204fdb
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: vymHlgJy26BuI5GGj9-IXjwR3dRC5C0tij4BpWJnoqw
+id: feedback
+label: 'Website feedback'
+recipients:
+  - dnarkiewicz@ctacorp.com
+reply: ''
+weight: 0
+message: 'Your message has been sent.'
+redirect: ''

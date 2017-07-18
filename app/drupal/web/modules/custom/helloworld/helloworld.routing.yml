@@ -1,0 +1,48 @@
+
+helloworld.default_controller_load:
+  path: '/helloworld/load/{nid}'
+  defaults:
+    _controller: '\Drupal\helloworld\Controller\DefaultController::load'
+    _title: 'hello'
+  requirements:
+    _permission: 'access content'
+
+helloworld.default_controller_hello:
+  path: '/helloworld/hello/{name}'
+  defaults:
+    _controller: '\Drupal\helloworld\Controller\DefaultController::hello'
+    _title: 'hello'
+  requirements:
+    _permission: 'access content'
+
+helloworld.default_controller_hi:
+  path: '/helloworld/hi'
+  defaults:
+    _controller: '\Drupal\helloworld\Controller\DefaultController::hi'
+    _title: 'hi'
+  requirements:
+    _permission: 'access content'
+
+helloworld.default_controller_syn:
+  path: '/helloworld/syn'
+  defaults:
+    _controller: '\Drupal\helloworld\Controller\DefaultController::syn'
+    _title: 'syn'
+  requirements:
+    _permission: 'access content'
+
+helloworld.default_controller_ack:
+  path: '/helloworld/ack'
+  defaults:
+    _controller: '\Drupal\helloworld\Controller\DefaultController::ack'
+    _title: 'ack'
+  requirements:
+    _permission: 'access content'
+
+helloworld.default_controller_order:
+  path: '/helloworld/order/{foo}/{bar}'
+  defaults:
+    _controller: '\Drupal\helloworld\Controller\DefaultController::order'
+    _title: 'Order'
+  requirements:
+    _permission: 'access content'

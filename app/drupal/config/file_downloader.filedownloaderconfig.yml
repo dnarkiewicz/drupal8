@@ -1,0 +1,5 @@
+file_types:
+  document: 0
+  image: image
+  audio: 0
+  video: video

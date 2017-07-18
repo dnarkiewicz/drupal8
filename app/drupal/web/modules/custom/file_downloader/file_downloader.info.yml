@@ -1,0 +1,8 @@
+name: File Downloader
+type: module
+description: Example File Downloader
+core: 8.x
+package: Custom
+dependencies:
+  - file_entity
+  - block

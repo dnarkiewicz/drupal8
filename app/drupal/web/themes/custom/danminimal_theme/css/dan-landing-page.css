@@ -1,0 +1,18 @@
+
+/** three-col calls-to-action on BasicPages **/
+.field__items {
+    position: relative;
+    width: 100%;
+}
+.field__items > .call_to_action_col_1 {
+    float: left;
+    width: 100%;
+}
+.field__items > .call_to_action_col_2 {
+    float: left;
+    width: 50%;
+}
+.field__items > .call_to_action_col_3 {
+    float: left;
+    width: 33.33%;
+}

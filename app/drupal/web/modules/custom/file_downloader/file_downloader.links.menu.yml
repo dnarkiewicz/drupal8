@@ -1,0 +1,7 @@
+file_downloader.file_downloader_config_form:
+  title: 'File Downloading Config'
+  route_name: file_downloader.file_downloader_config_form
+  description: 'File Download Config'
+  parent: system.admin_config_system
+  weight: 99
+
