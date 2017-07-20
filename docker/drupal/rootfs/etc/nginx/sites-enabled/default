@@ -1,12 +1,12 @@
 server {
-    listen   8080;
-    listen   [::]:8080 ipv6only=on;
+    listen   80;
+    listen   [::]:80 ipv6only=on;
 
     return 302 https://$host$request_uri;
 }
 server {
-    listen 8443 ssl http2 default_server;
-    listen [::]:8443 ssl http2 default ipv6only=on;
+    listen 443 ssl http2 default_server;
+    listen [::]:443 ssl http2 default ipv6only=on;
 
     ssl_certificate     /etc/nginx/certs/site.cert;
     ssl_certificate_key /etc/nginx/certs/site.key;
@@ -22,9 +22,9 @@ server {
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; allow all; }
 
-    location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
-        expires max;
-        log_not_found off;
+
+    location ~ ^/sites/.*/files/styles/(.*\.[^.]*)(jpg|jpeg|gif|png|svg)(\?.*)?$ {
+        try_files $uri @rewrite;
     }
 
     location / {

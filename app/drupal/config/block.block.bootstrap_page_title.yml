@@ -1,12 +1,14 @@
-uuid: 727cf73f-15df-495c-8935-59d520b8db0e
+uuid: 4e1052a2-b474-4937-ba73-d12a09795536
 langcode: en
 status: true
 dependencies:
   theme:
-    - dan_bootstrap
-id: pagetitle
-theme: dan_bootstrap
-region: hero
+    - bootstrap
+_core:
+  default_config_hash: 1TQP4b3ZnlzvIH9bj6cpCz_SyUHdJjLQkZnHpikjjhw
+id: bootstrap_page_title
+theme: bootstrap
+region: header
 weight: 0
 provider: null
 plugin: page_title_block

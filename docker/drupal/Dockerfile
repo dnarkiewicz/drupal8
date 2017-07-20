@@ -43,18 +43,17 @@ RUN cp -R /tmp/s6/* /\
         php${PHP_VERSION}-zip \
         php-igbinary \
         php-redis \
-        libsodium-dev \
+        # libsodium-dev \
         php-pear \
         nginx \
     && ln -s /etc/php/${PHP_VERSION} /etc/php/$(echo $PHP_VERSION | grep -o -E '[0-9]+' | head -1 | sed -e 's/^0\+//') \
     && ln -s /usr/sbin/php-fpm${PHP_VERSION} /usr/sbin/php-fpm \
     && ln -s /etc/init.d/php${PHP_VERSION}-fpm /etc/init.d/php-fpm \
     && pecl channel-update pecl.php.net \
-    && pecl channel-update pecl.php.net \
-    && pecl install libsodium \
-        && echo "extension=libsodium.so" > /etc/php/${PHP_VERSION}/mods-available/libsodium.ini \
-        && ln -s /etc/php/${PHP_VERSION}/mods-available/libsodium.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-libsodium.ini \
-        && ln -s /etc/php/${PHP_VERSION}/mods-available/libsodium.ini /etc/php/${PHP_VERSION}/fpm/conf.d/20-libsodium.ini \
+    && pecl install -f libsodium \
+        && echo "extension=sodium.so" > /etc/php/${PHP_VERSION}/mods-available/sodium.ini \
+        && ln -s /etc/php/${PHP_VERSION}/mods-available/sodium.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-sodium.ini \
+        && ln -s /etc/php/${PHP_VERSION}/mods-available/sodium.ini /etc/php/${PHP_VERSION}/fpm/conf.d/20-sodium.ini \
     && mkdir -p /etc/nginx/certs \
     && openssl req \
         -new -newkey rsa:2048 \
@@ -62,17 +61,26 @@ RUN cp -R /tmp/s6/* /\
         -subj "/C=US/ST=Virginia/L=Falls Church/O=CTAC/CN=localhost" \
         -keyout /etc/nginx/certs/site.key \
         -out    /etc/nginx/certs/site.cert \
-    && mkdir -p -m 664 /var/lib/php/sessions /var/log/app/nginx /var/log/app/php \
-        && chown -R www-data:www-data /var/lib/php/sessions /var/log/app/nginx /var/log/app/php /var/www/html \
+    && apt-get -y autoclean \
+        && apt-get -y clean \
+        && apt-get -y autoremove \
+        && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+
+RUN mkdir -p -m 664 \
+            /var/lib/php/sessions \
+            /var/log/app/nginx \
+            /var/log/app/php \
+        && chown -R www-data:www-data \
+            /var/lib/php/sessions \
+            /var/log/app \
+            /var/www \
         && ln -sf /dev/stdout /var/log/app/nginx/access.log \
         && ln -sf /dev/stderr /var/log/app/nginx/error.log \
         && ln -sf /dev/stderr /var/log/app/php/cli_error.log \
         && ln -sf /dev/stderr /var/log/app/php/fpm_error.log \
         && ln -sf /dev/stderr /var/log/app/php/fpm_slow.log \
-    && apt-get -y autoclean \
-        && apt-get -y clean \
-        && apt-get -y autoremove \
-        && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+        && ln -sf /dev/stderr /var/log/php-fpm.log \
 
 COPY rootfs /
 
@@ -89,18 +97,17 @@ RUN cd /usr/src \
     && chmod a+x /usr/local/bin/drush /root/.composer/vendor/bin/drush \
     && curl https://drupalconsole.com/installer -L -o drupal.phar \
     && mv drupal.phar /usr/local/bin/drupal \
-    && chmod +x /usr/local/bin/drupal \
-    && cd /var/www \
+    && chmod +x /usr/local/bin/drupal
+
+RUN cd /var/www \
     && composer create-project drupal-composer/drupal-project:8.x-dev \
-       d8 \
+       drupal \
        --stability dev \
        --no-interaction \
-    && rm -rf /var/www/html \
-    && ln -s /var/www/d8/web /var/www/html \
-    && chown -R www-data:www-data /var/www/html \
+    && chown -R www-data:www-data /var/www/drupal \
     && ln -s /etc/php/${PHP_VERSION} /etc/php/curr
 
-WORKDIR /var/www/html
+WORKDIR /var/www/drupal
 EXPOSE 80 443
 
 ENTRYPOINT [ "/init" ]

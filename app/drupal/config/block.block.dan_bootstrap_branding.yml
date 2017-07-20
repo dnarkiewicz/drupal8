@@ -1,17 +1,17 @@
-uuid: 53a61eda-2030-478d-9fd2-ab7c3bae947c
+uuid: 313288df-37ec-4dee-9550-45e9bcb9d61e
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - danminimal_theme
+    - dan_bootstrap
 _core:
   default_config_hash: NDwadleLD3YVSbDUaakxyYZyINYtkFtOVGShfq4kWy8
-id: danminimal_theme_branding
-theme: danminimal_theme
-region: header
-weight: 0
+id: dan_bootstrap_branding
+theme: dan_bootstrap
+region: navigation_collapsible
+weight: -7
 provider: null
 plugin: system_branding_block
 settings:

@@ -1,15 +1,15 @@
-uuid: 698cf90f-1f89-4361-b6fc-a599f023cd42
+uuid: c2e01d5a-e2b2-432e-95ee-259a5824eb3b
 langcode: en
 status: true
 dependencies:
   theme:
-    - danminimal_theme
+    - bootstrap
 _core:
-  default_config_hash: X9I1OB0W3WlWtrK-CNcg6hNWwa8wficanpH8pYnDZDE
-id: danminimal_theme_local_tasks
-theme: danminimal_theme
-region: content
-weight: -5
+  default_config_hash: qHdtze2DZ2mFfaJadxjZz6epm92_SN9SAFY4yJGl8Fo
+id: bootstrap_local_tasks
+theme: bootstrap
+region: header
+weight: 10
 provider: null
 plugin: local_tasks_block
 settings:

@@ -10,19 +10,29 @@ services:
       networks:
         - front
       ports:
-        - "80:8080"
-        - "443:8443"
+        - "80:80"
+        - "443:443"
       volumes:
         - ./app/drupal:/var/www/local:rw
         - ./app/drupal/composer.json:/var/www/drupal/composer.json:rw
         - ./app/drupal/web/sites/development.services.yml:/var/www/drupal/web/sites/development.services.yml:rw
         - ./app/drupal/web/sites/default/settings.php:/var/www/drupal/web/sites/default/settings.php:rw
         - ./app/drupal/web/sites/default/settings.local.php:/var/www/drupal/web/sites/default/settings.local.php:rw
-        - ./app/drupal/web/sites/default/files:/var/www/d8/web/sites/default/files:rw
+        - ./app/drupal/web/sites/default/files:/var/www/drupal/web/sites/default/files:rw
         - ./app/drupal/web/modules/custom:/var/www/drupal/web/modules/custom:rw
         - ./app/drupal/web/themes/custom:/var/www/drupal/web/themes/custom:rw
         - ./app/drupal/web/libraries:/var/www/drupal/web/libraries:rw
         - ./app/drupal/config:/var/www/drupal/config:rw
+        - ./docker/drupal/rootfs/etc/php/env.php:/etc/php/env.php:rw
+        - ./docker/drupal/rootfs/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:rw
+        - ./docker/drupal/rootfs/etc/nginx/sites-enabled/default:/etc/nginx/sites-enabled/default:rw
+        - ./docker/drupal/rootfs/etc/php/7.1/fpm/php-fpm.conf:/etc/php/7.1/fpm/php-fpm.conf:rw
+        - ./docker/drupal/rootfs/etc/php/7.1/fpm/pool.d/www.conf:/etc/php/7.1/fpm/pool.d/www.conf:rw
+        - ./docker/drupal/rootfs/etc/php/7.1/fpm/php.ini:/etc/php/7.1/fpm/php.ini:rw
+        - ./docker/drupal/rootfs/etc/php/7.1/cli/php.ini:/etc/php/7.1/cli/php.ini:rw
+        - ./docker/drupal/rootfs/etc/services.d:/etc/services.d:rw
+        - ./docker/drupal/rootfs/etc/cont-init.d:/etc/cont-init.d:rw
+
 
     db:
       image: mariadb:10.3

@@ -1,4 +1,4 @@
-uuid: f61085cf-a05b-4ef4-8117-0b5f6eef9949
+uuid: 6edce38f-20b7-4789-b9df-b4ba2ee2eee7
 langcode: en
 status: true
 dependencies:
@@ -7,11 +7,11 @@ dependencies:
   module:
     - system
   theme:
-    - danminimal_theme
+    - dan_bootstrap
 _core:
   default_config_hash: kkISXE1LT2FJEoYnqCrCpeFB-2pmGmMxMklVk7rQcfg
-id: danminimal_theme_footer
-theme: danminimal_theme
+id: dan_bootstrap_footer
+theme: dan_bootstrap
 region: sidebar_second
 weight: -6
 provider: null
