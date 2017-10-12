@@ -1,0 +1,13 @@
+server {
+    listen 80;
+    listen [::]:80 ipv6only=on;
+
+    return 302 https://$host$request_uri;
+}
+server {
+    include partials/ssl.conf;
+    include partials/drupal.conf;
+    location ~ \.php {
+      include  partials/php.conf;
+    }
+}

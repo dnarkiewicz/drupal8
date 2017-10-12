@@ -1,0 +1,63 @@
+.hhs-blue-header {
+    background: $color-hhs-primary-blue;
+    clear: both;
+    height: 50px;
+    padding: 0;
+    .hhs-logo {
+        a:link, a:visited {
+                color: #fcaf10;
+                display: block;
+                width: 204px;
+                height: 50px;
+                text-indent: -1000em;
+                z-index: 2000;
+                background: url(https://www.hhs.gov/sites/all/themes/project_h/css/images/hhs_logo.png) no-repeat;
+        }
+    }
+}
+  
+.inside_hhs-header {
+    color: white;
+    h1, p {
+        @include respond-to(951px){
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    } 
+    h1 {
+      margin-top: .5em;  
+      margin-bottom: 0;
+    }
+    p {
+       margin-top: 0;
+    }
+}
+
+.usa-banner, .usa-header {
+    background-color: $color-primary-blue;
+}
+
+.usa-banner {padding-top: 1rem;}
+
+.usa-header {
+    input[type="search"]{
+        border: 1px solid white;
+    }
+    input[type="submit"] {
+        @include primary-bttn;
+        border-radius: 0;
+    }
+} 
+
+.usa-header-basic {
+    .usa-logo {
+        @include respond-to(951px){
+            position: static;
+        }
+    } 
+    .usa-navbar {
+        @include respond-to(951px){
+            width: 100%;
+        }
+    }
+} 

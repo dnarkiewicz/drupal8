@@ -1,0 +1,22 @@
+// Import overrides of USWDS variables.
+@import "_variables.scss";
+// Import the USWDS source.
+@import "../node_modules/uswds/src/stylesheets/uswds.scss";
+
+
+//** hides login for dev purposes **//
+
+.inside_hhs-front-page-main-content .user-login-form {display: none;}
+
+
+//** mixins **//
+
+//** mental note: USWDS breakpoints are 800, 951, 1039 **//
+
+@mixin respond-to($query) {
+  @media (min-width: $query) {
+    @content
+  } // responsive sizing based on bootstrap & mobile-first
+}
+
+@import 'partials/base';

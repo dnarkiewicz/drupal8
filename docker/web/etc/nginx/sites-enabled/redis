@@ -1,0 +1,9 @@
+server {
+    server_name  ~^redis;
+
+    include partials/ssl.conf;
+
+    location / {
+        proxy_pass http://redis:6379;
+    }
+}

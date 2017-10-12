@@ -1,0 +1,97 @@
+//** layout **//
+
+.uswds-middle-section.inside_hhs-front-page {    
+    padding-top: 0;
+}
+
+.inside_hhs-front-page-main-content{
+    .main_secretarys_corner, 
+    .main_suggestion_box,
+    .main_quick_links,
+    .main_new_to_hhs, 
+    .main_humphreys_cafe, 
+    .main_upcoming_events, 
+    .main_empty_box {
+        background-color: white;
+        border: 1px solid #ccc;
+        margin-right: 1%;
+        margin-top: 10px;
+        overflow: hidden;;
+        padding: 10px;
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .region {
+            margin: 1.5rem;
+        }
+    }
+}
+
+.main_secretarys_corner, 
+.main_upcoming_events {
+    @include respond-to(800px){
+        height: 350px;
+    }
+    &.usa-width-two-thirds{
+        width: 100%;
+        @include respond-to(800px){
+            width: 65.05695%;
+        }
+    }
+} 
+
+.main_suggestion_box,
+.main_humphreys_cafe,
+.main_quick_links,
+.main_new_to_hhs {
+    &.usa-width-one-third {
+        width: 100%;
+        @include respond-to(800px){
+            margin-right: 0;
+            margin-left: 0;
+            width: 33.9125%;
+        }
+    }    
+}
+
+.main_suggestion_box,
+.main_humphreys_cafe {
+    @include respond-to(800px){
+        height: 155px;
+    }
+}
+
+.main_quick_links,
+.main_new_to_hhs {
+    @include respond-to(800px){
+        height: 185px;
+    }
+}
+
+.inside_hhs-front-page-second-row {
+    margin-right: 10px;
+    width: 100%;
+    @include respond-to(800px){
+        width: 30.11389%
+    }
+}
+
+.main_upcoming_events.usa-width-two-thirds {
+    @include respond-to(800px){
+        float: right;
+        width: 68.53%;
+        margin-right: 0;
+    }
+}
+
+//** style **//
+
+.inside_hhs-front-page-main-content {
+    h2 {font-size: 2.5rem;}
+    .view h2 {
+        font-size: 2rem;
+        margin-top: 1em;
+    }
+}

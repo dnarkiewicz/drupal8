@@ -1,0 +1,9 @@
+server {
+    server_name  ~^(log|splunk);
+
+    include partials/ssl.conf;
+
+    location / {
+        proxy_pass http://splunk:8000;
+    }
+}

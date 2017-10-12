@@ -1,0 +1,37 @@
+server {
+    listen 80;
+    server_name  ~^(?<bucket>.*)\.s3;
+    location / {
+        proxy_pass http://s3/$bucket$request_uri;
+    }
+}
+server {
+    listen 80;
+    server_name  ~^s3;
+    resolver 127.0.0.11;
+    location / {
+        proxy_pass http://s3;
+    }
+}
+
+server {
+    server_name  ~^(?<bucket>.*)\.s3;
+
+    include partials/ssl.conf;
+
+    location / {
+        proxy_pass http://s3/$bucket$request_uri;
+    }
+}
+
+server {
+    server_name  ~^s3;
+    resolver 127.0.0.11;
+
+    include partials/ssl.conf;
+
+    location / {
+        proxy_pass http://s3;
+    }
+}
+
