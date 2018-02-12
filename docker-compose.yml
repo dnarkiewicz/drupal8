@@ -5,22 +5,27 @@ services:
 
   web:
     build:
-      context: ./docker
-      dockerfile: web/Dockerfile-alpine
-    logging:
-      driver: syslog
-      options:
-        syslog-address: tcp://10.0.2.2:1514
-        tag: "{{.Name}}/{{.ID}}"
+      context: ./
+      dockerfile: docker/web/Dockerfile
+      args:
+        PHP_VERSION: 7.1
+        DRUPAL_VERSION: ~8
+    # logging:
+    #   driver: syslog
+    #   options:
+    #     syslog-address: tcp://10.0.2.2:1514
+    #     tag: "{{.Name}}/{{.ID}}"
     depends_on:
       - db
     networks:
       default:
         aliases:
-          - d8.dev
-          - www.d8.dev
-          - logs.d8.dev
-          - redis.d8.dev
+          - d8.loc
+          - www.d8.loc
+          - es.d8.loc
+          - redis.d8.loc
+          - logs.d8.loc
+          - s3.d8.loc
     ports:
       - "80:80"
       - "443:443"
@@ -28,39 +33,35 @@ services:
     volumes:
       - ./app/drupal:/var/www/local:rw
       - ./app/drupal/composer.json:/var/www/drupal/composer.json:rw
-      - ./app/drupal/web/sites/development.services.yml:/var/www/drupal/web/sites/development.services.yml:rw
+      - ./app/drupal/web/sites/development.services.yml:/var/www/drupal/web/sites/development.services.yml:ro
       - ./app/drupal/web/sites/default/settings.php:/var/www/drupal/web/sites/default/settings.php:rw
       - ./app/drupal/web/sites/default/settings.local.php:/var/www/drupal/web/sites/default/settings.local.php:rw
+      - ./app/drupal/web/sites/all/modules/custom:/var/www/drupal/web/sites/all/modules/custom:rw
+      - ./app/drupal/web/sites/all/themes/custom:/var/www/drupal/web/sites/al/themes/custom:rw
       - ./app/drupal/web/sites/default/files:/var/www/drupal/web/sites/default/files:rw
-      - ./app/drupal/web/modules/custom:/var/www/drupal/web/modules/custom:rw
-      - ./app/drupal/web/themes/custom:/var/www/drupal/web/themes/custom:rw
-      - ./app/drupal/web/libraries:/var/www/drupal/web/libraries:rw
       - ./app/drupal/config:/var/www/drupal/config:rw
       - ./docker/certs:/certs:rw
       - ./docker/web/etc/php/env.php:/etc/php/env.php:rw
       - ./docker/web/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:rw
       - ./docker/web/etc/nginx/partials:/etc/nginx/partials:rw
       - ./docker/web/etc/nginx/sites-enabled:/etc/nginx/sites-enabled:rw
-      - ./docker/web/etc/php/7.1/fpm/php-fpm.conf:/etc/php/7.1/fpm/php-fpm.conf:rw
-      - ./docker/web/etc/php/7.1/fpm/pool.d/www.conf:/etc/php/7.1/fpm/pool.d/www.conf:rw
-      - ./docker/web/etc/php/7.1/fpm/php.ini:/etc/php/7.1/fpm/php.ini:rw
-      - ./docker/web/etc/php/7.1/cli/php.ini:/etc/php/7.1/cli/php.ini:rw
+      - ./docker/web/etc/php/7/fpm/php-fpm.conf:/etc/php/curr/fpm/php-fpm.conf:rw
+      - ./docker/web/etc/php/7/fpm/pool.d/www.conf:/etc/php/curr/fpm/pool.d/www.conf:rw
+      - ./docker/web/etc/php/7/fpm/php.ini:/etc/php/curr/fpm/php.ini:rw
+      - ./docker/web/etc/php/7/cli/php.ini:/etc/php/curr/cli/php.ini:rw
       - ./docker/web/etc/services.d:/etc/services.d:rw
       - ./docker/web/etc/cont-init.d:/etc/cont-init.d:rw
 
 # PERSISTANCE TIER
 
   db:
-    image: mariadb:10.3
+    image: mysql:5.7
     logging:
-      driver: syslog
-      options:
-        syslog-address: tcp://10.0.2.2:1514
-        tag: "{{.Name}}/{{.ID}}"
+      driver: none
     networks:
       default:
         aliases:
-          - db.d8.dev
+          - db.d8.loc
     ports:
       - "3306:3306"
     environment:
@@ -70,38 +71,28 @@ services:
       - MYSQL_PASSWORD=
     volumes:
       - ./data/db:/var/lib/mysql:rw
-      - ./docker/db/d8.sql.gz:/docker-entrypoint-initdb.d/d8.sql.gz:rw
+      - ./docker/db/initdb.d/:/docker-entrypoint-initdb.d/:rw
 
-  es:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
-    logging:
-      driver: syslog
-      options:
-        syslog-address: tcp://10.0.2.2:1514
-        tag: "{{.Name}}/{{.ID}}"
-    networks:
-      default:
-        aliases:
-          - es.d8.dev
-    ports:
-      - "9443:9443"
-      - "9300:9300"
-    volumes:
-      - ./data/elasticsearch:/usr/share/elasticsearch/data:rw
-      - ./docker/certs:/usr/share/elasticsearch/config/x-pack/certificate-bundle:rw
-      - ./docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:rw
+  # es:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
+  #   logging:
+  #     driver: none
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - es.d8.loc
+  #   ports:
+  #     - "9443:9443"
+  #     - "9300:9300"
+  #   volumes:
+  #     - ./data/elasticsearch:/usr/share/elasticsearch/data:rw
+  #     - ./docker/certs:/usr/share/elasticsearch/config/x-pack/certificate-bundle:rw
+  #     - ./docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:rw
 
   s3:
     image: andrewgaul/s3proxy
     logging:
-      driver: syslog
-      options:
-        syslog-address: tcp://10.0.2.2:1514
-        tag: "{{.Name}}/{{.ID}}"
-    networks:
-      default:
-        aliases:
-          - s3.d8.dev
+      driver: none
     ports:
       - "9000:80"
     environment:
@@ -111,34 +102,36 @@ services:
     volumes:
       - ./data/s3:/data:rw
 
-  redis:
-    image: redis:3-alpine
-    logging:
-      driver: syslog
-      options:
-        syslog-address: tcp://10.0.2.2:1514
-        tag: "{{.Name}}/{{.ID}}"
-    ports:
-      - "6379:6379"
-    volumes:
-      - ./data/redis:/data:rw
+  # redis:
+  #   image: redis:3-alpine
+  #   logging:
+  #     driver: none
+  #   # logging:
+  #   #   driver: syslog
+  #   #   options:
+  #   #     syslog-address: tcp://10.0.2.2:1514
+  #   #     tag: "{{.Name}}/{{.ID}}"
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - ./data/redis:/data:rw
 
 # LOGGING TIER
 
-  splunk:
-    image: splunk/splunk:6.5.3
-    logging:
-      driver: none
-    environment:
-      SPLUNK_START_ARGS: --accept-license --answer-yes
-      SPLUNK_ENABLE_LISTEN: 9997
-      SPLUNK_ADD: tcp 1514
-      SPLUNK_USER: root
-      # SPLUNK_CMD: "edit user admin -password admin -role admin -auth admin:changeme"
-    restart: always
-    ports:
-      - "8000:8000"
-      - "8088:8088"
-      - "1514:1514"
-    volumes:
-      - ./docker/splunk/inputs.conf:/opt/splunk/etc/apps/splunk_httpinput/local/inputs.conf:rw
+  # splunk:
+  #   image: splunk/splunk:6.5.3
+  #   logging:
+  #     driver: none
+  #   environment:
+  #     SPLUNK_START_ARGS: --accept-license --answer-yes
+  #     SPLUNK_ENABLE_LISTEN: 9997
+  #     SPLUNK_ADD: tcp 1514
+  #     SPLUNK_USER: root
+  #     # SPLUNK_CMD: "edit user admin -password admin -role admin -auth admin:changeme"
+  #   restart: always
+  #   ports:
+  #     - "8000:8000"
+  #     - "8088:8088"
+  #     - "1514:1514"
+  #   volumes:
+  #     - ./docker/splunk/inputs.conf:/opt/splunk/etc/apps/splunk_httpinput/local/inputs.conf:rw

@@ -1,4 +1,4 @@
-uuid: 873a9d76-4ffe-4cc4-8021-932de3204fdb
+uuid: a6ffd80b-a2be-4217-8abc-b056dc72edc4
 langcode: en
 status: true
 dependencies: {  }
@@ -7,7 +7,7 @@ _core:
 id: feedback
 label: 'Website feedback'
 recipients:
-  - dnarkiewicz@ctacorp.com
+  - nobody@ctacorp.com
 reply: ''
 weight: 0
 message: 'Your message has been sent.'

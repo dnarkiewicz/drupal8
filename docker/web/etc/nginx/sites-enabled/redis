@@ -4,6 +4,6 @@ server {
     include partials/ssl.conf;
 
     location / {
-        proxy_pass http://redis:6379;
+        # proxy_pass http://redis:6379;
     }
 }

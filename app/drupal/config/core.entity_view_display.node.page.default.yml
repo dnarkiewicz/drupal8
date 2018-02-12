@@ -1,13 +1,11 @@
-uuid: 54f70aa8-b73f-4284-8991-d77878673a54
+uuid: 36934334-77ac-498c-b1cf-11dd50fc9f2d
 langcode: en
 status: true
 dependencies:
   config:
     - field.field.node.page.body
-    - field.field.node.page.field_calls_to_action
     - node.type.page
   module:
-    - entity_reference_revisions
     - text
     - user
 _core:
@@ -24,15 +22,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_calls_to_action:
-    type: entity_reference_revisions_entity_view
-    weight: 102
-    label: above
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    region: content
   links:
     weight: 101
     region: content

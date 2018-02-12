@@ -1,4 +1,4 @@
-uuid: 51758c5d-495f-4554-ba92-840396faaf31
+uuid: 3f49c984-d512-43f1-af0d-da43c0fe747a
 langcode: en
 status: true
 dependencies:
@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.article.comment
     - field.field.node.article.field_image
     - field.field.node.article.field_tags
-    - field.field.node.article.field_video
     - image.style.thumbnail
     - node.type.article
   module:
@@ -16,7 +15,7 @@ dependencies:
     - path
     - text
 _core:
-  default_config_hash: N8YzXGJXPIvh1OPpjuLH_XDvPwWBpKnTx0GwAvgU0Rg
+  default_config_hash: buc38w3gxCqFnjINJhMiJvPpj9jWflKvlKDyBVMPVvw
 id: node.article.default
 targetEntityType: node
 bundle: article
@@ -57,14 +56,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_video:
-    weight: 31
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
   path:
     type: path
     weight: 30
@@ -76,6 +67,13 @@ content:
     settings:
       display_label: true
     weight: 15
+    region: content
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 120
     region: content
     third_party_settings: {  }
   sticky:

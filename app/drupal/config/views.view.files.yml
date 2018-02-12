@@ -1,10 +1,9 @@
-uuid: c5bcfc33-4e40-4f3d-b494-ce9552439637
+uuid: 4d380b05-8d7d-44ca-a847-6a24e7e399f5
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - file
-    - file_entity
     - user
 _core:
   default_config_hash: rRWxAX-IQkJ5viACQRovRkC784EyCl9493GU_G23n2Q
@@ -569,7 +568,7 @@ display:
           decimal: .
           separator: ','
           format_plural: true
-          format_plural_string: "1 place\x03@count places"
+          format_plural_string: !!binary MSBwbGFjZQNAY291bnQgcGxhY2Vz
           prefix: ''
           suffix: ''
           plugin_id: numeric
@@ -1011,7 +1010,7 @@ display:
           decimal: .
           separator: ','
           format_plural: false
-          format_plural_string: "1\x03@count"
+          format_plural_string: !!binary MQNAY291bnQ=
           prefix: ''
           suffix: ''
           plugin_id: numeric

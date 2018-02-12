@@ -4,6 +4,6 @@ server {
     include partials/ssl.conf;
 
     location / {
-        proxy_pass http://splunk:8000;
+        # proxy_pass http://splunk:8000;
     }
 }

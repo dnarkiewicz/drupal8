@@ -1,7 +1,0 @@
-name: youtuber
-type: module
-description: Fat Shaming Module
-core: 8.x
-package: Custom
-dependencies:
-  - text
