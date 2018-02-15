@@ -33,14 +33,16 @@ services:
     volumes:
       - ./app/drupal:/var/www/local:rw
       - ./app/drupal/composer.json:/var/www/drupal/composer.json:rw
-      - ./app/drupal/web/sites/development.services.yml:/var/www/drupal/web/sites/development.services.yml:ro
+      - ./app/drupal/web/sites/development.services.yml:/var/www/drupal/web/sites/development.services.yml:rw
       - ./app/drupal/web/sites/default/settings.php:/var/www/drupal/web/sites/default/settings.php:rw
       - ./app/drupal/web/sites/default/settings.local.php:/var/www/drupal/web/sites/default/settings.local.php:rw
       - ./app/drupal/web/sites/all/modules/custom:/var/www/drupal/web/sites/all/modules/custom:rw
       - ./app/drupal/web/sites/all/themes/custom:/var/www/drupal/web/sites/al/themes/custom:rw
       - ./app/drupal/web/sites/default/files:/var/www/drupal/web/sites/default/files:rw
+      - ./docker/web/export_drupal_config.sh:/var/www/drupal/web/export_drupal_config.sh:rw
+      - ./docker/web/import_drupal_config.sh:/var/www/drupal/web/import_drupal_config.sh:rw
       - ./app/drupal/config:/var/www/drupal/config:rw
-      - ./docker/certs:/certs:rw
+      - ./docker/certs:/certs:ro
       - ./docker/web/etc/php/env.php:/etc/php/env.php:rw
       - ./docker/web/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:rw
       - ./docker/web/etc/nginx/partials:/etc/nginx/partials:rw
@@ -56,8 +58,8 @@ services:
 
   db:
     image: mysql:5.7
-    logging:
-      driver: none
+    # logging:
+    #   driver: none
     networks:
       default:
         aliases:
@@ -71,7 +73,10 @@ services:
       - MYSQL_PASSWORD=
     volumes:
       - ./data/db:/var/lib/mysql:rw
-      - ./docker/db/initdb.d/:/docker-entrypoint-initdb.d/:rw
+      - ./docker/db/initdb.d/:/docker-entrypoint-initdb.d/:ro
+      # - ./docker/certs/ca.pem:/var/lib/mysql/ca.pem:rw
+      # - ./docker/certs/db-server-cert.pem:/var/lib/mysql/db-server-cert.pem:rw
+      # - ./docker/certs/db-server-key.pem:/var/lib/mysql/db-server-key.pem:rw
 
   # es:
   #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1

@@ -13,13 +13,13 @@ sudo cp -v $(brew --prefix dnsmasq)/homebrew.mxcl.dnsmasq.plist /Library/LaunchD
 
 echo "** DNSMasq Configuring resolver ... "
 sudo mkdir -v /etc/resolver 2>&1 >/dev/null
-echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/dev 2>&1 >/dev/null
+echo "nameserver 127.0.0.1" | sudo tee /etc/resolver/loc 2>&1 >/dev/null
 
-echo "** DNSMasq Configuring *.dev ... "
+echo "** DNSMasq Configuring *.loc ... "
 sudo mkdir -vp $(brew --prefix)/etc/
 sudo tee $(brew --prefix)/etc/dnsmasq.conf 2>&1 >/dev/null <<-EOF
 listen-address=127.0.0.1
-address=/.dev/127.0.0.1
+address=/.loc/127.0.0.1
 # keep nameserver order of resolv.conf
 strict-order
 EOF

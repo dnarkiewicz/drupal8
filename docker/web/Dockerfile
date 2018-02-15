@@ -74,13 +74,6 @@ RUN mkdir -p -m 664 \
             /var/log/nginx \
             /var/log/php \
             /var/www
-#        && ln -sf /dev/stdout /var/log/nginx/access.log \
-#        && ln -sf /dev/stderr /var/log/nginx/error.log \
-#        && ln -sf /dev/stderr /var/log/php/cli_error.log \
-#        && ln -sf /dev/stderr /var/log/php/fpm_error.log \
-#        && ln -sf /dev/stderr /var/log/php/fpm_slow.log \
-#        && ln -sf /dev/stderr /var/log/php-fpm.log
-
 
 RUN cd /usr/src \
     && curl -sS https://getcomposer.org/installer | php \
@@ -106,6 +99,8 @@ COPY docker/certs/redis-server-cert.pem /usr/local/share/ca-certificates/redis-s
 RUN update-ca-certificates --fresh
 
 COPY app/drupal/composer.json /var/www/drupal/composer.json
+COPY docker/web/export_drupal_config.sh /var/www/drupal/export_drupal_config.sh
+COPY docker/web/import_drupal_config.sh /var/www/drupal/import_drupal_config.sh
 
 RUN cd /var/www/drupal \
     && composer update
