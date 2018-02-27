@@ -37,7 +37,7 @@ services:
       - ./app/drupal/web/sites/default/settings.php:/var/www/drupal/web/sites/default/settings.php:rw
       - ./app/drupal/web/sites/default/settings.local.php:/var/www/drupal/web/sites/default/settings.local.php:rw
       - ./app/drupal/web/sites/all/modules/custom:/var/www/drupal/web/sites/all/modules/custom:rw
-      - ./app/drupal/web/sites/all/themes/custom:/var/www/drupal/web/sites/al/themes/custom:rw
+      - ./app/drupal/web/sites/all/themes/custom:/var/www/drupal/web/sites/all/themes/custom:rw
       - ./app/drupal/web/sites/default/files:/var/www/drupal/web/sites/default/files:rw
       - ./docker/web/export_drupal_config.sh:/var/www/drupal/web/export_drupal_config.sh:rw
       - ./docker/web/import_drupal_config.sh:/var/www/drupal/web/import_drupal_config.sh:rw
