@@ -1,60 +1,142 @@
-version: '3'
+version: '3.2'
 services:
-    drupal:
-      build: ./docker/drupal
-      env_file: ./env
-      depends_on:
-        - db
-      networks:
-        - front
-      ports:
-        - "9000:9000"
-        - "80:80"
-        - "443:443"
-      volumes:
-        - ./app/drupal:/var/www/local:rw
-        - ./app/drupal/modules:/var/www/html/modules:rw
-        - ./app/drupal/sites:/var/www/html/sites:rw
-        - ./app/drupal/themes:/var/www/html/themes:rw
-        - ./app/drupal/vendor:/var/www/html/vendor:rw
-        - ./app/drupal/composer.json:/var/www/html/composer.json:rw
-        - ./app/drupal/composer.lock:/var/www/html/composer.lock:rw
 
-    db:
-      image: mariadb:10.3
-      # user: root
-      # command: mysqld --skip-grant-tables
-      networks:
-        front:
-          aliases:
-            - mysql
-      ports:
-        - "3306:3306"
-      environment:
-        - MYSQL_DATABASE=d8
-        - MYSQL_ALLOW_EMPTY_PASSWORD=1
-        - MYSQL_USER=root
-        - MYSQL_PASSWORD=
-      volumes:
-        - ./data/db:/var/lib/mysql:rw
-        - ./docker/db/rootfs/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:rw
+# APPLICATION TIER
 
-    # db:
-    #   image: mysql:5.7
-    #   user: root
-    #   command: mysqld --skip-grant-tables
-    #   networks:
-    #     - front
-    #   ports:
-    #     - "3306:3306"
-    #   environment:
-    #     - MYSQL_DATABASE=d8
-    #     - MYSQL_ALLOW_EMPTY_PASSWORD=1
-    #     - MYSQL_USER=root
-    #     - MYSQL_PASSWORD=
-    #   volumes:
-    #     - ./data/db:/var/lib/mysql:rw
-    #     - ./docker/db/rootfs/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:rw
+  web:
+    build:
+      context: ./
+      dockerfile: docker/web/Dockerfile
+      args:
+        PHP_VERSION: 7.1
+        DRUPAL_VERSION: ~8
+    # logging:
+    #   driver: syslog
+    #   options:
+    #     syslog-address: tcp://10.0.2.2:1514
+    #     tag: "{{.Name}}/{{.ID}}"
+    depends_on:
+      - db
+    networks:
+      default:
+        aliases:
+          - d8.loc
+          - www.d8.loc
+          - es.d8.loc
+          - redis.d8.loc
+          - logs.d8.loc
+          - s3.d8.loc
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file: ./docker/web/env
+    volumes:
+      - ./app/drupal:/var/www/local:rw
+      - ./app/drupal/composer.json:/var/www/drupal/composer.json:rw
+      - ./app/drupal/web/sites/development.services.yml:/var/www/drupal/web/sites/development.services.yml:rw
+      - ./app/drupal/web/sites/default/settings.php:/var/www/drupal/web/sites/default/settings.php:rw
+      - ./app/drupal/web/sites/default/settings.local.php:/var/www/drupal/web/sites/default/settings.local.php:rw
+      - ./app/drupal/web/sites/all/modules/custom:/var/www/drupal/web/sites/all/modules/custom:rw
+      - ./app/drupal/web/sites/all/themes/custom:/var/www/drupal/web/sites/all/themes/custom:rw
+      - ./app/drupal/web/sites/default/files:/var/www/drupal/web/sites/default/files:rw
+      - ./docker/web/export_drupal_config.sh:/var/www/drupal/web/export_drupal_config.sh:rw
+      - ./docker/web/import_drupal_config.sh:/var/www/drupal/web/import_drupal_config.sh:rw
+      - ./app/drupal/config:/var/www/drupal/config:rw
+      - ./docker/certs:/certs:ro
+      - ./docker/web/etc/php/env.php:/etc/php/env.php:rw
+      - ./docker/web/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:rw
+      - ./docker/web/etc/nginx/partials:/etc/nginx/partials:rw
+      - ./docker/web/etc/nginx/sites-enabled:/etc/nginx/sites-enabled:rw
+      - ./docker/web/etc/php/7/fpm/php-fpm.conf:/etc/php/curr/fpm/php-fpm.conf:rw
+      - ./docker/web/etc/php/7/fpm/pool.d/www.conf:/etc/php/curr/fpm/pool.d/www.conf:rw
+      - ./docker/web/etc/php/7/fpm/php.ini:/etc/php/curr/fpm/php.ini:rw
+      - ./docker/web/etc/php/7/cli/php.ini:/etc/php/curr/cli/php.ini:rw
+      - ./docker/web/etc/services.d:/etc/services.d:rw
+      - ./docker/web/etc/cont-init.d:/etc/cont-init.d:rw
 
-networks:
-    front:
+# PERSISTANCE TIER
+
+  db:
+    image: mysql:5.7
+    # logging:
+    #   driver: none
+    networks:
+      default:
+        aliases:
+          - db.d8.loc
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=d8
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=
+    volumes:
+      - ./data/db:/var/lib/mysql:rw
+      - ./docker/db/initdb.d/:/docker-entrypoint-initdb.d/:ro
+      # - ./docker/certs/ca.pem:/var/lib/mysql/ca.pem:rw
+      # - ./docker/certs/db-server-cert.pem:/var/lib/mysql/db-server-cert.pem:rw
+      # - ./docker/certs/db-server-key.pem:/var/lib/mysql/db-server-key.pem:rw
+
+  # es:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
+  #   logging:
+  #     driver: none
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - es.d8.loc
+  #   ports:
+  #     - "9443:9443"
+  #     - "9300:9300"
+  #   volumes:
+  #     - ./data/elasticsearch:/usr/share/elasticsearch/data:rw
+  #     - ./docker/certs:/usr/share/elasticsearch/config/x-pack/certificate-bundle:rw
+  #     - ./docker/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:rw
+
+  s3:
+    image: andrewgaul/s3proxy
+    logging:
+      driver: none
+    ports:
+      - "9000:80"
+    environment:
+      S3PROXY_AUTHORIZATION: none
+      S3PROXY_CORS_ALLOW_ALL: "true"
+      S3PROXY_IGNORE_UNKNOWN_HEADERS: "true"
+    volumes:
+      - ./data/s3:/data:rw
+
+  # redis:
+  #   image: redis:3-alpine
+  #   logging:
+  #     driver: none
+  #   # logging:
+  #   #   driver: syslog
+  #   #   options:
+  #   #     syslog-address: tcp://10.0.2.2:1514
+  #   #     tag: "{{.Name}}/{{.ID}}"
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - ./data/redis:/data:rw
+
+# LOGGING TIER
+
+  # splunk:
+  #   image: splunk/splunk:6.5.3
+  #   logging:
+  #     driver: none
+  #   environment:
+  #     SPLUNK_START_ARGS: --accept-license --answer-yes
+  #     SPLUNK_ENABLE_LISTEN: 9997
+  #     SPLUNK_ADD: tcp 1514
+  #     SPLUNK_USER: root
+  #     # SPLUNK_CMD: "edit user admin -password admin -role admin -auth admin:changeme"
+  #   restart: always
+  #   ports:
+  #     - "8000:8000"
+  #     - "8088:8088"
+  #     - "1514:1514"
+  #   volumes:
+  #     - ./docker/splunk/inputs.conf:/opt/splunk/etc/apps/splunk_httpinput/local/inputs.conf:rw
