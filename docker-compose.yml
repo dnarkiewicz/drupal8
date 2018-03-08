@@ -6,7 +6,7 @@ services:
   web:
     build:
       context: ./
-      dockerfile: docker/web/Dockerfile
+      dockerfile: docker/build/web/Dockerfile
       args:
         PHP_VERSION: 7.1
         DRUPAL_VERSION: ~8
@@ -29,30 +29,30 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    env_file: ./docker/web/env
+    env_file: ./docker/env
     volumes:
-      - ./app/drupal:/var/www/local:rw
-      - ./app/drupal/composer.json:/var/www/drupal/composer.json:rw
-      - ./app/drupal/web/sites/development.services.yml:/var/www/drupal/web/sites/development.services.yml:rw
-      - ./app/drupal/web/sites/default/settings.php:/var/www/drupal/web/sites/default/settings.php:rw
-      - ./app/drupal/web/sites/default/settings.local.php:/var/www/drupal/web/sites/default/settings.local.php:rw
-      - ./app/drupal/web/sites/all/modules/custom:/var/www/drupal/web/sites/all/modules/custom:rw
-      - ./app/drupal/web/sites/all/themes/custom:/var/www/drupal/web/sites/all/themes/custom:rw
-      - ./app/drupal/web/sites/default/files:/var/www/drupal/web/sites/default/files:rw
-      - ./docker/web/export_drupal_config.sh:/var/www/drupal/web/export_drupal_config.sh:rw
-      - ./docker/web/import_drupal_config.sh:/var/www/drupal/web/import_drupal_config.sh:rw
-      - ./app/drupal/config:/var/www/drupal/config:rw
+      - ./status.php:/var/www/drupal/web/status.php:rw
+      - ./composer.json:/var/www/drupal/composer.json:rw
+      - ./config:/var/www/drupal/config:rw
+      - ./sites/default/services.yml:/var/www/drupal/web/sites/services.yml:rw
+      - ./sites/default/services.dev.yml:/var/www/drupal/web/sites/services.dev.yml:rw
+      - ./sites/default/settings.php:/var/www/drupal/web/sites/default/settings.php:rw
+      - ./sites/default/settings.dev.php:/var/www/drupal/web/sites/default/settings.dev.php:rw
+      - ./sites/all/modules/custom:/var/www/drupal/web/sites/all/modules/custom:rw
+      - ./sites/all/themes/custom:/var/www/drupal/web/sites/all/themes/custom:rw
+      - ./sites/default/files:/var/www/drupal/web/sites/default/files:rw
+      - ./docker/build/web/export_drupal_config.sh:/var/www/drupal/web/export_drupal_config.sh:rw
+      - ./docker/build/web/import_drupal_config.sh:/var/www/drupal/web/import_drupal_config.sh:rw
       - ./docker/certs:/certs:ro
-      - ./docker/web/etc/php/env.php:/etc/php/env.php:rw
-      - ./docker/web/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:rw
-      - ./docker/web/etc/nginx/partials:/etc/nginx/partials:rw
-      - ./docker/web/etc/nginx/sites-enabled:/etc/nginx/sites-enabled:rw
-      - ./docker/web/etc/php/7/fpm/php-fpm.conf:/etc/php/curr/fpm/php-fpm.conf:rw
-      - ./docker/web/etc/php/7/fpm/pool.d/www.conf:/etc/php/curr/fpm/pool.d/www.conf:rw
-      - ./docker/web/etc/php/7/fpm/php.ini:/etc/php/curr/fpm/php.ini:rw
-      - ./docker/web/etc/php/7/cli/php.ini:/etc/php/curr/cli/php.ini:rw
-      - ./docker/web/etc/services.d:/etc/services.d:rw
-      - ./docker/web/etc/cont-init.d:/etc/cont-init.d:rw
+      - ./docker/build/web/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:rw
+      - ./docker/build/web/etc/nginx/partials:/etc/nginx/partials:rw
+      - ./docker/build/web/etc/nginx/sites-enabled:/etc/nginx/sites-enabled:rw
+      - ./docker/build/web/etc/php/7/fpm/php-fpm.conf:/etc/php/curr/fpm/php-fpm.conf:rw
+      - ./docker/build/web/etc/php/7/fpm/pool.d/www.conf:/etc/php/curr/fpm/pool.d/www.conf:rw
+      - ./docker/build/web/etc/php/7/fpm/php.ini:/etc/php/curr/fpm/php.ini:rw
+      - ./docker/build/web/etc/php/7/cli/php.ini:/etc/php/curr/cli/php.ini:rw
+      - ./docker/build/web/etc/services.d:/etc/services.d:rw
+      - ./docker/build/web/etc/cont-init.d:/etc/cont-init.d:rw
 
 # PERSISTANCE TIER
 
@@ -72,11 +72,11 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=
     volumes:
-      - ./data/db:/var/lib/mysql:rw
-      - ./docker/db/initdb.d/:/docker-entrypoint-initdb.d/:ro
-      # - ./docker/certs/ca.pem:/var/lib/mysql/ca.pem:rw
-      # - ./docker/certs/db-server-cert.pem:/var/lib/mysql/db-server-cert.pem:rw
-      # - ./docker/certs/db-server-key.pem:/var/lib/mysql/db-server-key.pem:rw
+      - ./docker/data/db:/var/lib/mysql:rw
+      # - ./docker/initdb.d/:/docker-entrypoint-initdb.d/:ro
+      #- ./docker/certs/ca.pem:/var/lib/mysql/ca.pem:rw
+      #- ./docker/certs/db-server-cert.pem:/var/lib/mysql/db-server-cert.pem:rw
+      #- ./docker/certs/db-server-key.pem:/var/lib/mysql/db-server-key.pem:rw
 
   # es:
   #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
@@ -105,7 +105,7 @@ services:
       S3PROXY_CORS_ALLOW_ALL: "true"
       S3PROXY_IGNORE_UNKNOWN_HEADERS: "true"
     volumes:
-      - ./data/s3:/data:rw
+      - ./docker/data/s3:/data:rw
 
   # redis:
   #   image: redis:3-alpine

@@ -1,0 +1,28 @@
+uuid: 1ba7713f-c3ad-4997-b611-addc334f444f
+langcode: en
+status: true
+dependencies:
+  module:
+    - akamai
+    - user
+  theme:
+    - bartik
+id: akamaicacheclear
+theme: bartik
+region: sidebar_first
+weight: 0
+provider: null
+plugin: akamai_cache_clear_block
+settings:
+  id: akamai_cache_clear_block
+  label: 'Akamai Cache Clear'
+  provider: akamai
+  label_display: visible
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      administrator: administrator
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

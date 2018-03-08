@@ -1,0 +1,33 @@
+uuid: 97b585ec-bc4f-415e-9cc6-965d1b7cf505
+langcode: en
+status: true
+dependencies:
+  module:
+    - purge_ui
+    - user
+  theme:
+    - bartik
+id: purgethispage
+theme: bartik
+region: sidebar_first
+weight: -5
+provider: null
+plugin: purge_ui_block
+settings:
+  id: purge_ui_block
+  label: 'Purge this page'
+  provider: purge_ui
+  label_display: visible
+  purge_block_id: ef8f7a1b8c1195db91fad50dda21541c44a3168a
+  description: ''
+  submit_label: Clear!
+  type: path
+  execution: direct
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      authenticated: authenticated
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

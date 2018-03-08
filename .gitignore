@@ -1,4 +1,5 @@
-data/*
+docker/data/*
+docker/env
 
 *.DS_Store
 .idea/*

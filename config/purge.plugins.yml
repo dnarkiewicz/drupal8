@@ -1,0 +1,9 @@
+purgers:
+  -
+    order_index: 2
+    instance_id: f53ca97b06
+    plugin_id: cloudfront
+  -
+    order_index: 3
+    instance_id: 335883f48e
+    plugin_id: akamai
