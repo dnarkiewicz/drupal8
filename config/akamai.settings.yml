@@ -1,0 +1,19 @@
+disabled: false
+rest_api_url: 'https://akab-ufii5qmetmkuowmb-m2s4pvfsejuluawt.purge.akamaiapis.net'
+client_token: akab-oorluqnzb6zcafpm-s6xdvkgft74tt76k
+client_secret: rSw+xF3p5bjFiNJ+6+LN3n2zgOY/1CuaATtuX9aD/nQ=
+access_token: akab-uxnoymvrxncwganv-n3igabpybmhsfbjl
+basepath: 'https://www.stopbullying.gov'
+timeout: 5
+domain:
+  production: true
+  staging: false
+action:
+  remove: false
+  invalidate: true
+devel_mode: false
+mock_endpoint: 'http://private-250a0-akamaiopen2purgeccuproduction.apiary-mock.com'
+log_requests: true
+status_expire: 1209600
+_core:
+  default_config_hash: _t19wOPft5FkqWZ_PqKD9-eWViPVaEXHqhnf9AfVrhQ
