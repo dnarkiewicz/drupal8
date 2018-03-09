@@ -1,4 +1,4 @@
-# drupal8 xxxb xxxb xxxb
+# drupal8 ***REMOVED*** xxxb xxxb
 
 Docker setup process (OSX):
 * Copy ./docker/env-default file to ./docker/env
