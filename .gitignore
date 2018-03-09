@@ -1,5 +1,7 @@
 docker/data/*
 docker/env
+config/akamai.settings.yml
+config/cloudfront_purger.settings.yml
 sites/default/files/*
 
 *.DS_Store
