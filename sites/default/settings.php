@@ -27,7 +27,7 @@ $databases['default']['default'] = array (
 
 $config_directories['sync'] = '../config';
 
-$settings['hash_salt'] = '2bMLtOpLuXYALdfEhjWtnmDads2pWf-EFXNrfudEsuy36fD4MN8zUmoTx0XH8qWgzoGgUsicPg';
+$settings['hash_salt'] = 'rZ6OJcnQNfMRt44NZiUhSQVUj5gbRgKE-InlHMm1gv1VcUQcUJNoxBpm10T4xbI6SXRxRjHAeA';
 
 /// S3 SETTINGS
 

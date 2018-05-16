@@ -22,7 +22,7 @@
         "drupal/akamai": "3.x-dev",
         "drupal/cloudfront_purger": "^1.1",
         "drupal/console": "^1.0.2",
-        "drupal/core": "~8.4",
+        "drupal/core": "~8.5",
         "drupal/purge": "^3.0@beta",
         "drupal/s3fs": "^3.0@alpha",
         "drush/drush": "^9.0.0",
